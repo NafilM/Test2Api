@@ -14,4 +14,14 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"/>
 
+    <ProgressBar
+        android:layout_weight="1"
+        android:id="@+id/progressBar_cyclic"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:minHeight="40dp"
+        android:minWidth="40dp" />
+
 </RelativeLayout>

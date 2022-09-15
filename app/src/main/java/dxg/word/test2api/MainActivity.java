@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     Context context;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recycler);
+        progressBar = findViewById(R.id.progressBar_cyclic);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
@@ -43,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void apiCall(){
+        progressBar.setVisibility(View.VISIBLE);
         ApiService apiService = ApiGenerator.createService(ApiService.class);
         Call<List<Test2ApiResponse>> call = apiService.getApiData("India");
         call.enqueue(new Callback<List<Test2ApiResponse>>() {
             @Override
             public void onResponse(Call<List<Test2ApiResponse>> call, Response<List<Test2ApiResponse>> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()){
                     if (response.body() != null) {
 
@@ -70,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Test2ApiResponse>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
                 t.printStackTrace();
             }
         });
